@@ -20,6 +20,8 @@ var PLAYER_GRAVITY = 320;
 
 var PLAYER_JUMPINGVELOCITY = -320;
 
+var SCORE = 0;
+
 
 var raimund = {};
 
@@ -31,7 +33,7 @@ raimund.gameState = function() {
 	this.foods;
 	this.player;
 	this.cursors;
-	this.score = 0;
+	//this.score = 0;
 	this.scoreText;
 	this.startTime = 0;
 	this.timeText;
@@ -185,7 +187,8 @@ raimund.gameState.prototype.create = function() {
 	this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '64px', fill: '#000000'});
 	this.timeText = this.add.text(180, 16, '', { fontSize: '64px', fill: '#000000'} );
 	this.cursors = this.input.keyboard.createCursorKeys();	
-	this.score = 0;
+	//this.score = 0;
+	SCORE = 0;
 }	
 
 raimund.gameState.prototype.update = function() {
@@ -271,8 +274,10 @@ raimund.gameState.prototype.killPlayer = function(player, wall) {
 	
 raimund.gameState.prototype.collectFood = function(player, food) {
 	food.kill();
-	this.score += 10;
-	this.scoreText.text = "Score: " + this.score;
+	//this.score += 10;
+	SCORE += 10;
+	//this.scoreText.text = "Score: " + this.score;
+	this.scoreText.text = "Score: " + SCORE;
 
 	if(food == this.winFood) {
 		this.gameSound.stop();
@@ -333,6 +338,7 @@ raimund.startState.prototype.start = function() {
 
 raimund.winState = function() {
 	this.time;
+	this.score;
 	this.winningSound;
 	this.winStarted = false;
 }
@@ -342,7 +348,9 @@ raimund.winState.prototype.preload = function() {
 
 raimund.winState.prototype.init = function(time) {
 	this.time = time;
+	//this.score = score;
 }
+
 
 raimund.winState.prototype.create = function() {
 	this.stage.backgroundColor = "#000000";
@@ -351,9 +359,9 @@ raimund.winState.prototype.create = function() {
 	+ "\nIdea/Code/Music: Paul M" 
 	+ "\nGraphics: Samuel B & Benjamin B" 
 	+ "\nDebugging: Nicolas W", {font: "24px Arial", fill: "#ffffff"});
-	this.add.text(this.world.centerX + 200, this.world.centerY - 400, "Yeah, du hast Mathelonien in " + this.time + " s gerettet! \nDanke!\n"
+	this.add.text(this.world.centerX + 200, this.world.centerY - 400, "Yeah, du hast Mathelonien in " + this.time + " s gerettet! \nDanke!\nScore: " + SCORE + "\n"
 	+ "\nKlicke auf das Wappen," 
-	+ "\num eine erneute Invasion zu verhindern!", {font: "37px Arial", fill: "#ffffff"});
+	+ "\num eine erneute Invasion zu verhindern!",	{font: "37px Arial", fill: "#ffffff"});
 	var button = this.add.image(this.world.centerX + 620, this.world.centerY + 130, 'wappenKlein');
 	button.inputEnabled = true;
 	button.input.useHandCursor = true;
